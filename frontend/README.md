@@ -124,44 +124,48 @@ Use these sample accounts to explore the student and professor dashboards.
 ```text
 Student-Assignment-Management-System/
 │
-├── public/
-│
-├── src/
-│   ├── components/
-│   │   ├── AssignmentForm.jsx
-│   │   ├── DashboardLayout.jsx
-│   │   ├── GroupManagement.jsx
-│   │   ├── MyGroupsSection.jsx
-│   │   ├── SubmissionTracking.jsx
-│   │   └── Toast.jsx
-│   │
-│   ├── context/
-│   │   └── AuthContext.jsx
-│   │
-│   ├── data/
-│   │   ├── courseData.js
-│   │   └── seedData.js
-│   │
-│   ├── pages/
-│   │   ├── StudentDashboard.jsx
-│   │   ├── ProfessorDashboard.jsx
-│   │   ├── CourseAssignmentsPage.jsx
-│   │   ├── LoginPage.jsx
-│   │   └── RegisterPage.jsx
-│   │
-│   ├── services/
-│   │   ├── authService.js
-│   │   └── storageService.js
-│   │
-│   ├── App.jsx
-│   ├── index.css
-│   └── main.jsx
-│
-├── index.html
-├── package.json
-├── package-lock.json
-├── vite.config.js
-└── README.md
+└── frontend/
+    │
+    ├── public/
+    │
+    ├── src/
+    │   ├── components/
+    │   │   ├── AssignmentForm.jsx
+    │   │   ├── DashboardLayout.jsx
+    │   │   ├── GroupManagement.jsx
+    │   │   ├── MyGroupsSection.jsx
+    │   │   ├── SubmissionTracking.jsx
+    │   │   └── Toast.jsx
+    │   │
+    │   ├── context/
+    │   │   └── AuthContext.jsx
+    │   │
+    │   ├── data/
+    │   │   ├── courseData.js
+    │   │   └── seedData.js
+    │   │
+    │   ├── pages/
+    │   │   ├── StudentDashboard.jsx
+    │   │   ├── ProfessorDashboard.jsx
+    │   │   ├── CourseAssignmentsPage.jsx
+    │   │   ├── LoginPage.jsx
+    │   │   └── RegisterPage.jsx
+    │   │
+    │   ├── services/
+    │   │   ├── authService.js
+    │   │   └── storageService.js
+    │   │
+    │   ├── App.jsx
+    │   ├── App.css
+    │   ├── index.css
+    │   └── main.jsx
+    │
+    ├── index.html
+    ├── package.json
+    ├── package-lock.json
+    ├── eslint.config.js
+    ├── vite.config.js
+    └── README.md
 ```
 
 ## ⚙️ Installation and Setup
@@ -174,10 +178,10 @@ Follow these steps to run the project locally.
 git clone https://github.com/RangannagariGuruBalaji/Student-Assignment-Management-System.git
 ```
 
-### 2. Navigate to the project folder
+### 2. Navigate to the frontend folder
 
 ```bash
-cd Student-Assignment-Management-System
+cd Student-Assignment-Management-System/frontend
 ```
 
 ### 3. Install dependencies
@@ -267,7 +271,7 @@ The application also includes sample course, student and assignment data for dem
 
 B.Tech – Computer Science and Engineering
 
-GitHub:  
+**GitHub:**  
 https://github.com/RangannagariGuruBalaji
 
 ## 📌 Project Links
@@ -278,8 +282,6 @@ https://student-assignment-management-syste.vercel.app/
 **GitHub Repository:**  
 https://github.com/RangannagariGuruBalaji/Student-Assignment-Management-System
 
----
+Student Assignment Management System – Joineazy
 
-**Student Assignment Management System – Joineazy**
-
-_Learn, collaborate and achieve together._
+Learn, collaborate and achieve together.
