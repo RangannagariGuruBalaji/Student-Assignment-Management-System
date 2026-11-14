@@ -1,237 +1,284 @@
 
-import { useState } from 'react';
-import { students } from '../data/seedData';
+import { useState } from "react";
 
-function AssignmentForm({ onSave, onCancel, initialData }) {
+export default function AssignmentForm({
+  onSave,
+  onCancel,
+  initialData,
+  groups = [],
+}) {
+  const [formData, setFormData] = useState({
+    title: initialData?.title || "",
+    description: initialData?.description || "",
+    deadline: initialData?.deadline
+      ? initialData.deadline.slice(0, 16)
+      : initialData?.dueDate
+        ? `${initialData.dueDate}T23:59`
+        : "",
+    oneDriveLink:
+      initialData?.oneDriveLink ||
+      initialData?.driveLink ||
+      "",
+    submissionType:
+      initialData?.submissionType || "Individual",
+    assignedGroupIds:
+      initialData?.assignedGroupIds ||
+      (initialData?.submissionType === "Group"
+        ? groups.map((group) => group.id)
+        : []),
+  });
 
-  const [title, setTitle] = useState(
-    initialData?.title || ''
-  );
+  const [error, setError] = useState("");
 
-  const [description, setDescription] = useState(
-    initialData?.description || ''
-  );
+  function handleChange(event) {
+    const { name, value } = event.target;
 
-  const [dueDate, setDueDate] = useState(
-    initialData?.dueDate || ''
-  );
+    setFormData((previous) => ({
+      ...previous,
+      [name]: value,
+      ...(name === "submissionType" && value === "Individual"
+        ? { assignedGroupIds: [] }
+        : {}),
+    }));
 
-  const [driveLink, setDriveLink] = useState(
-    initialData?.driveLink || ''
-  );
-
-  const [assignToAll, setAssignToAll] = useState(
-    initialData
-      ? initialData.assignedStudentIds.length === students.length
-      : true
-  );
-
-  const [selectedStudents, setSelectedStudents] = useState(
-    initialData?.assignedStudentIds || students.map(s => s.id)
-  );
-
-  // Handle student selection
-  function handleStudentChange(studentId) {
-
-    setSelectedStudents((previous) => {
-
-      if (previous.includes(studentId)) {
-
-        return previous.filter(id => id !== studentId);
-
-      }
-
-      return [...previous, studentId];
-
-    });
-
+    setError("");
   }
 
-  // Handle form submission
-  function handleSubmit(event) {
+  function handleGroupSelection(groupId) {
+    setFormData((previous) => {
+      const isSelected = previous.assignedGroupIds.includes(groupId);
 
+      return {
+        ...previous,
+        assignedGroupIds: isSelected
+          ? previous.assignedGroupIds.filter((id) => id !== groupId)
+          : [...previous.assignedGroupIds, groupId],
+      };
+    });
+
+    setError("");
+  }
+
+  function handleSubmit(event) {
     event.preventDefault();
 
-    const assignedStudentIds = assignToAll
-      ? students.map(student => student.id)
-      : selectedStudents;
-
-    if (assignedStudentIds.length === 0) {
-      alert('Please select at least one student.');
+    if (
+      !formData.title.trim() ||
+      !formData.description.trim() ||
+      !formData.deadline ||
+      !formData.oneDriveLink.trim()
+    ) {
+      setError("Please complete all assignment fields.");
       return;
     }
 
-    const assignment = {
-      title: title.trim(),
-      description: description.trim(),
-      dueDate,
-      driveLink: driveLink.trim(),
-      assignedStudentIds
-    };
+    const deadlineDate = new Date(formData.deadline);
 
-    onSave(assignment);
+    if (Number.isNaN(deadlineDate.getTime())) {
+      setError("Please enter a valid deadline.");
+      return;
+    }
 
+    if (deadlineDate.getTime() <= Date.now()) {
+      setError("Please select a future deadline.");
+      return;
+    }
+
+    try {
+      const link = new URL(formData.oneDriveLink);
+
+      if (link.protocol !== "https:") {
+        setError("Please provide a valid HTTPS OneDrive link.");
+        return;
+      }
+    } catch {
+      setError("Please enter a valid OneDrive URL.");
+      return;
+    }
+
+    if (
+      formData.submissionType === "Group" &&
+      formData.assignedGroupIds.length === 0
+    ) {
+      setError("Please select at least one group.");
+      return;
+    }
+
+    onSave(formData);
   }
 
   return (
-
-    <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
-
-      <h2 className="text-xl font-bold text-gray-800 mb-6">
-        {initialData ? 'Edit Assignment' : 'Create Assignment'}
+    <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+      <h2 className="mb-5 text-xl font-bold text-slate-900">
+        {initialData ? "Edit Assignment" : "Create Assignment"}
       </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
-
-        {/* Assignment Title */}
+      <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="mb-2 block text-sm font-semibold">
             Assignment Title
           </label>
 
           <input
-            id="title"
             type="text"
-            value={title}
-            onChange={event => setTitle(event.target.value)}
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
             placeholder="Enter assignment title"
-            required
-            className="w-full border border-gray-300 rounded-lg px-4 py-3"
+            className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
-        {/* Description */}
         <div>
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="mb-2 block text-sm font-semibold">
             Description
           </label>
 
           <textarea
-            id="description"
-            value={description}
-            onChange={event => setDescription(event.target.value)}
-            placeholder="Enter assignment instructions"
-            required
-            rows={3}
-            className="w-full border border-gray-300 rounded-lg px-4 py-3"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            rows={4}
+            placeholder="Describe the assignment"
+            className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
-        {/* Due Date */}
         <div>
-          <label htmlFor="dueDate" className="block text-sm font-medium text-gray-700 mb-2">
-            Due Date
+          <label className="mb-2 block text-sm font-semibold">
+            Deadline (Date and Time)
           </label>
 
           <input
-            id="dueDate"
-            type="date"
-            value={dueDate}
-            onChange={event => setDueDate(event.target.value)}
-            required
-            className="w-full border border-gray-300 rounded-lg px-4 py-3"
+            type="datetime-local"
+            name="deadline"
+            value={formData.deadline}
+            onChange={handleChange}
+            className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
-        {/* Google Drive Link */}
         <div>
-          <label htmlFor="driveLink" className="block text-sm font-medium text-gray-700 mb-2">
-            Google Drive Link
+          <label className="mb-2 block text-sm font-semibold">
+            OneDrive Link
           </label>
 
           <input
-            id="driveLink"
             type="url"
-            value={driveLink}
-            onChange={event => setDriveLink(event.target.value)}
-            placeholder="https://drive.google.com/..."
-            required
-            className="w-full border border-gray-300 rounded-lg px-4 py-3"
+            name="oneDriveLink"
+            value={formData.oneDriveLink}
+            onChange={handleChange}
+            placeholder="https://..."
+            className="w-full rounded-xl border border-slate-300 px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
-        {/* Student Assignment */}
-        <div className="border border-gray-200 rounded-lg p-4">
-
-          <h3 className="font-semibold text-gray-800 mb-3">
-            Assign To
-          </h3>
-
-          <label className="flex items-center gap-3 mb-4">
-            <input
-              type="checkbox"
-              checked={assignToAll}
-              onChange={event => setAssignToAll(event.target.checked)}
-              className="w-4 h-4"
-            />
-
-            <span className="text-sm font-medium text-gray-700">
-              Assign to all students
-            </span>
+        <div>
+          <label className="mb-2 block text-sm font-semibold">
+            Submission Type
           </label>
 
-          {!assignToAll && (
+          <select
+            name="submissionType"
+            value={formData.submissionType}
+            onChange={handleChange}
+            className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3"
+          >
+            <option value="Individual">Individual</option>
+            <option value="Group">Group</option>
+          </select>
+        </div>
 
-            <div className="space-y-3">
+        {formData.submissionType === "Group" && (
+          <div className="rounded-xl border border-blue-100 bg-blue-50 p-4">
+            <div className="mb-3">
+              <h3 className="font-semibold text-slate-900">
+                Select Groups
+              </h3>
 
-              <p className="text-sm text-gray-500">
-                Select individual students:
+              <p className="mt-1 text-xs text-slate-600">
+                Choose which groups must complete this assignment.
               </p>
-
-              {students.map(student => (
-
-                <label
-                  key={student.id}
-                  className="flex items-center gap-3"
-                >
-
-                  <input
-                    type="checkbox"
-                    checked={selectedStudents.includes(student.id)}
-                    onChange={() => handleStudentChange(student.id)}
-                    className="w-4 h-4"
-                  />
-
-                  <span className="text-sm text-gray-700">
-                    {student.name}
-                  </span>
-
-                </label>
-
-              ))}
-
             </div>
 
-          )}
+            {groups.length === 0 ? (
+              <p className="rounded-lg bg-white p-4 text-sm text-slate-500">
+                No groups are available in this course yet.
+                Students must create groups before you can assign
+                this work.
+              </p>
+            ) : (
+              <div className="space-y-3">
+                {groups.map((group) => {
+                  const isSelected =
+                    formData.assignedGroupIds.includes(group.id);
 
-        </div>
+                  const leader = group.memberIds.find(
+                    (memberId) => memberId === group.leaderId
+                  );
 
-        {/* Form Buttons */}
-        <div className="flex flex-wrap justify-end gap-3">
+                  return (
+                    <label
+                      key={group.id}
+                      className="flex cursor-pointer items-start gap-3 rounded-lg border border-slate-200 bg-white p-3"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() =>
+                          handleGroupSelection(group.id)
+                        }
+                        className="mt-1 h-4 w-4 accent-blue-600"
+                      />
+
+                      <span>
+                        <span className="block text-sm font-semibold text-slate-800">
+                          {group.name}
+                        </span>
+
+                        <span className="mt-1 block text-xs text-slate-500">
+                          Leader ID: {leader || group.leaderId}
+                        </span>
+
+                        <span className="mt-1 block text-xs text-slate-500">
+                          {group.memberIds.length} member(s)
+                        </span>
+                      </span>
+                    </label>
+                  );
+                })}
+              </div>
+            )}
+
+            <p className="mt-3 text-xs font-semibold text-blue-700">
+              {formData.assignedGroupIds.length} group(s) selected
+            </p>
+          </div>
+        )}
+
+        {error && (
+          <p role="alert" className="text-sm text-red-600">
+            {error}
+          </p>
+        )}
+
+        <div className="flex flex-wrap gap-3">
+          <button
+            type="submit"
+            className="rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700"
+          >
+            {initialData ? "Update Assignment" : "Create Assignment"}
+          </button>
 
           <button
             type="button"
             onClick={onCancel}
-            className="px-5 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100"
+            className="rounded-xl bg-slate-100 px-5 py-3 font-semibold text-slate-700 transition hover:bg-slate-200"
           >
             Cancel
           </button>
-
-          <button
-            type="submit"
-            className="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-          >
-            {initialData ? 'Update Assignment' : 'Create Assignment'}
-          </button>
-
         </div>
-
       </form>
-
     </div>
-
   );
-
 }
-
-export default AssignmentForm;
