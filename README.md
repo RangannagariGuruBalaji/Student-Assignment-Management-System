@@ -1,14 +1,24 @@
 # Student Assignment Management System
 
-A responsive assignment management platform built using **React.js, Vite and Tailwind CSS**. The application provides separate dashboards for students and professors to manage courses, assignments, groups and submission progress.
+**Joineazy – A Student and Professor Assignment Management Platform**
 
-## 🚀 Project Overview
+A responsive assignment management platform built using React 19, Vite and Tailwind CSS. Joineazy provides separate dashboards for students and professors to manage courses, assignments, groups and submission progress.
 
-**Joineazy** is a student and professor assignment management platform designed to simplify course management, assignment distribution and submission tracking.
+## 🚀 Live Demo
 
-Professors can create and manage courses, publish assignments, assign work to individual students or groups, and monitor submission progress.
+**Live Application:**  
+https://student-assignment-management-syste.vercel.app/
 
-Students can view enrolled courses, access assignments, join groups, acknowledge assignment submissions and track their progress.
+**GitHub Repository:**  
+https://github.com/RangannagariGuruBalaji/Student-Assignment-Management-System
+
+## 📌 Project Overview
+
+Joineazy is a student and professor assignment management platform designed to simplify course management, assignment distribution, group collaboration and submission tracking.
+
+Professors can create and manage courses, publish assignments, assign work to individual students or selected groups, and monitor submission progress.
+
+Students can view enrolled courses, access assignments, create or join groups, acknowledge submissions and track their overall progress.
 
 The application uses role-based authentication and browser localStorage for data persistence.
 
@@ -18,16 +28,17 @@ The application uses role-based authentication and browser localStorage for data
 
 - Professor registration and login.
 - Dedicated professor dashboard.
-- Create and manage courses.
+- Create, view and manage courses.
 - Create, edit and delete assignments.
-- Assign individual or group assignments.
-- Set assignment descriptions and deadlines.
+- Assign individual assignments to students.
+- Create group assignments and select target groups.
+- Add assignment descriptions and deadlines.
 - Add OneDrive resource links.
-- Select groups for group assignments.
 - Track submitted and pending assignments.
 - View individual student submission progress.
-- Monitor group acknowledgement status.
+- Monitor group assignment acknowledgement status.
 - View assignment completion percentages.
+- Track overdue assignments.
 
 ### 🎓 Student Features
 
@@ -52,7 +63,7 @@ The application uses role-based authentication and browser localStorage for data
 - Prevent students from joining multiple groups within the same course.
 - Assign group assignments to selected groups.
 - Allow only the group leader to acknowledge group assignments.
-- Display acknowledgement details to all group members.
+- Display group acknowledgement details to all group members.
 
 ### 📱 Additional Features
 
@@ -61,10 +72,11 @@ The application uses role-based authentication and browser localStorage for data
 - Search and filter assignments.
 - Assignment status indicators.
 - Overdue assignment tracking.
-- Progress bars and statistics.
+- Progress bars and dashboard statistics.
 - Toast notifications.
 - Browser localStorage data persistence.
 - Reusable React components.
+- Student and professor dashboards.
 
 ## 🛠️ Technologies Used
 
@@ -74,10 +86,13 @@ The application uses role-based authentication and browser localStorage for data
 | JavaScript           | Application logic             |
 | Tailwind CSS         | Styling and responsive design |
 | HTML5                | Page structure                |
+| CSS3                 | Styling                       |
 | Vite                 | Development and build tool    |
-| React Router         | Application routing           |
+| React Router DOM     | Application routing           |
 | Browser localStorage | Data persistence              |
-| Git & GitHub         | Version control               |
+| Git                  | Version control               |
+| GitHub               | Source code management        |
+| Vercel               | Application deployment        |
 
 ## 👤 Demo Login Accounts
 
@@ -85,24 +100,24 @@ The application includes sample accounts for testing.
 
 ### Professors
 
-| Name        | Role      |
-| ----------- | --------- |
-| Professor A | Professor |
-| Professor B | Professor |
+| Name        | Email                | Role      |
+| ----------- | -------------------- | --------- |
+| Professor A | admin1@joineazy.demo | Professor |
+| Professor B | admin2@joineazy.demo | Professor |
 
 ### Students
 
-| Name   | Role    |
-| ------ | ------- |
-| Balaji | Student |
-| Ravi   | Student |
-| Suresh | Student |
-| Priya  | Student |
-| Anjali | Student |
+| Name   | Email                  | Role    |
+| ------ | ---------------------- | ------- |
+| Balaji | student1@joineazy.demo | Student |
+| Ravi   | student2@joineazy.demo | Student |
+| Suresh | student3@joineazy.demo | Student |
+| Priya  | student4@joineazy.demo | Student |
+| Anjali | student5@joineazy.demo | Student |
 
-**Demo password:** `Joineazy@123`
+**Demo Password for all accounts:** `Joineazy@123`
 
-Use the sample accounts to explore the student and professor dashboards.
+Use these sample accounts to explore the student and professor dashboards.
 
 ## 📂 Project Structure
 
@@ -130,13 +145,16 @@ Student-Assignment-Management-System/
 │   ├── pages/
 │   │   ├── StudentDashboard.jsx
 │   │   ├── ProfessorDashboard.jsx
-│   │   └── CourseAssignmentsPage.jsx
+│   │   ├── CourseAssignmentsPage.jsx
+│   │   ├── LoginPage.jsx
+│   │   └── RegisterPage.jsx
 │   │
 │   ├── services/
 │   │   ├── authService.js
 │   │   └── storageService.js
 │   │
 │   ├── App.jsx
+│   ├── index.css
 │   └── main.jsx
 │
 ├── index.html
@@ -182,11 +200,27 @@ Visit the local URL displayed in your terminal, usually:
 http://localhost:5173/
 ```
 
+## 🧪 Testing and Build
+
+To check the code using ESLint:
+
+```bash
+npm run lint
+```
+
+To create a production build:
+
+```bash
+npm run build
+```
+
+The production files will be generated inside the `dist` folder.
+
 ## 🏗️ Architecture and Design Decisions
 
 ### Component-Based Architecture
 
-The application uses reusable React components to organize dashboards, assignment forms, group management and submission tracking.
+The application uses reusable React components to organize dashboards, assignment forms, group management, submission tracking and notifications.
 
 ### Authentication and Role-Based Access
 
@@ -194,7 +228,7 @@ The application supports student and professor roles. Protected routes ensure th
 
 ### State Management
 
-React `useState` and `useEffect` manage application state and synchronize relevant data with browser localStorage.
+React `useState` and `useEffect` manage application state and synchronize relevant information with browser localStorage.
 
 ### Data Persistence
 
@@ -208,7 +242,13 @@ Tailwind CSS utility classes provide a responsive interface for desktop and mobi
 
 The application uses browser localStorage for data persistence instead of a backend database.
 
-Application data is maintained using dedicated storage keys for users, sessions, courses, assignments and groups.
+Application data is maintained using dedicated storage keys for:
+
+- User accounts.
+- Authentication sessions.
+- Courses.
+- Assignments.
+- Groups.
 
 The application also includes sample course, student and assignment data for demonstration purposes.
 
@@ -216,9 +256,9 @@ The application also includes sample course, student and assignment data for dem
 
 - Backend API integration.
 - Database integration.
-- Secure server-side authentication.
+- Secure server-side authentication and authorization.
 - Assignment file uploads.
-- Email and deadline notifications.
+- Email notifications.
 - Advanced reporting and analytics.
 
 ## 👨‍💻 Developer
@@ -227,12 +267,19 @@ The application also includes sample course, student and assignment data for dem
 
 B.Tech – Computer Science and Engineering
 
-GitHub: [RangannagariGuruBalaji](https://github.com/RangannagariGuruBalaji)
+GitHub:  
+https://github.com/RangannagariGuruBalaji
 
-## 🔗 Project Links
+## 📌 Project Links
 
-**GitHub Repository:**
+**Live Application:**  
+https://student-assignment-management-syste.vercel.app/
 
+**GitHub Repository:**  
 https://github.com/RangannagariGuruBalaji/Student-Assignment-Management-System
 
-**Live Demo:** Deployment pending.
+---
+
+**Student Assignment Management System – Joineazy**
+
+_Learn, collaborate and achieve together._
