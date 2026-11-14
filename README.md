@@ -1,76 +1,94 @@
- Assignment & Review Dashboard
+# Student Assignment Management System
 
-A responsive assignment management dashboard built using React.js and Tailwind CSS. The application provides separate dashboards for students and administrators to manage assignments, track submissions, and monitor student progress.
+A responsive assignment management platform built using **React.js, Vite and Tailwind CSS**. The application provides separate dashboards for students and professors to manage courses, assignments, groups and submission progress.
 
-## 🚀 Live Demo
+## 🚀 Project Overview
 
-**Live Application:** https://assignment-review-dashboard-five.vercel.app/
+**Joineazy** is a student and professor assignment management platform designed to simplify course management, assignment distribution and submission tracking.
 
-**GitHub Repository:** https://github.com/RangannagariGuruBalaji/Assignment-Review-Dashboard
+Professors can create and manage courses, publish assignments, assign work to individual students or groups, and monitor submission progress.
 
-## 📌 Project Overview
+Students can view enrolled courses, access assignments, join groups, acknowledge assignment submissions and track their progress.
 
-Joineazy is an assignment management platform designed for students and professors.
-
-Administrators can create, edit, and delete assignments, assign them to all students or selected students, and monitor submission progress.
-
-Students can view their assigned assignments, access learning materials, confirm submissions, and track their overall completion progress.
-
-The application uses mock authentication and browser localStorage for data persistence. No backend is required.
+The application uses role-based authentication and browser localStorage for data persistence.
 
 ## ✨ Features
 
-### Admin Features
+### 👨‍🏫 Professor Features
 
-- Mock login for administrator accounts.
-- Create, edit, and delete assignments.
-- Assign assignments to all students or selected students.
-- Add assignment descriptions, due dates, and learning resource links.
-- View individual student submission statuses.
-- Monitor class completion percentages through progress bars.
-- View assignments created by the logged-in administrator.
+- Professor registration and login.
+- Dedicated professor dashboard.
+- Create and manage courses.
+- Create, edit and delete assignments.
+- Assign individual or group assignments.
+- Set assignment descriptions and deadlines.
+- Add OneDrive resource links.
+- Select groups for group assignments.
+- Track submitted and pending assignments.
+- View individual student submission progress.
+- Monitor group acknowledgement status.
+- View assignment completion percentages.
 
-### Student Features
+### 🎓 Student Features
 
-- View assignments assigned to the logged-in student.
-- Access assignment learning materials through external links.
-- View assignment due dates and statuses.
-- Confirm assignment submission through a two-step confirmation process.
-- Track overall assignment completion progress.
-- Filter assignments by submitted, pending, and overdue status.
+- Student registration and login.
+- Dedicated student dashboard.
+- View enrolled courses.
+- View individual and group assignments.
+- Access assignment resource links.
+- Acknowledge individual assignments.
+- View group assignment acknowledgement details.
+- Create and join course groups.
+- View group leaders and members.
+- Track submitted, pending and overdue assignments.
+- Monitor assignment completion progress.
 
-### Additional Features
+### 👥 Group Management
+
+- Create groups within courses.
+- Join available groups.
+- Assign a group leader.
+- View group members.
+- Prevent students from joining multiple groups within the same course.
+- Assign group assignments to selected groups.
+- Allow only the group leader to acknowledge group assignments.
+- Display acknowledgement details to all group members.
+
+### 📱 Additional Features
 
 - Responsive dashboard layout.
-- Search assignments by title.
-- Filter and sort assignments by due date and status.
-- Overdue assignment indicators.
-- Light and dark mode.
-- Browser localStorage persistence.
-- Role-based dashboard navigation.
+- Role-based protected routes.
+- Search and filter assignments.
+- Assignment status indicators.
+- Overdue assignment tracking.
+- Progress bars and statistics.
+- Toast notifications.
+- Browser localStorage data persistence.
+- Reusable React components.
 
 ## 🛠️ Technologies Used
 
-- React.js
-- JavaScript
-- Tailwind CSS
-- HTML5
-- CSS3
-- Vite
-- Git and GitHub
-- Vercel
-- Browser localStorage
+| Technology           | Purpose                       |
+| -------------------- | ----------------------------- |
+| React 19             | Frontend development          |
+| JavaScript           | Application logic             |
+| Tailwind CSS         | Styling and responsive design |
+| HTML5                | Page structure                |
+| Vite                 | Development and build tool    |
+| React Router         | Application routing           |
+| Browser localStorage | Data persistence              |
+| Git & GitHub         | Version control               |
 
-## 👥 Demo Login Accounts
+## 👤 Demo Login Accounts
 
-The application uses mock login without passwords.
+The application includes sample accounts for testing.
 
-### Administrators
+### Professors
 
-| Name        | Role  |
-| ----------- | ----- |
-| Professor A | Admin |
-| Professor B | Admin |
+| Name        | Role      |
+| ----------- | --------- |
+| Professor A | Professor |
+| Professor B | Professor |
 
 ### Students
 
@@ -82,35 +100,48 @@ The application uses mock login without passwords.
 | Priya  | Student |
 | Anjali | Student |
 
-Select an account from the login dropdown to access its dashboard.
+**Demo password:** `Joineazy@123`
+
+Use the sample accounts to explore the student and professor dashboards.
 
 ## 📂 Project Structure
 
 ```text
-assignment-dashboard/
+Student-Assignment-Management-System/
 │
 ├── public/
 │
 ├── src/
 │   ├── components/
-│   │   ├── Navbar.jsx
-│   │   ├── Sidebar.jsx
-│   │   ├── StatCard.jsx
-│   │   ├── Login.jsx
-│   │   ├── AssignmentCard.jsx
 │   │   ├── AssignmentForm.jsx
-│   │   └── AdminProgress.jsx
+│   │   ├── DashboardLayout.jsx
+│   │   ├── GroupManagement.jsx
+│   │   ├── MyGroupsSection.jsx
+│   │   ├── SubmissionTracking.jsx
+│   │   └── Toast.jsx
+│   │
+│   ├── context/
+│   │   └── AuthContext.jsx
 │   │
 │   ├── data/
+│   │   ├── courseData.js
 │   │   └── seedData.js
 │   │
+│   ├── pages/
+│   │   ├── StudentDashboard.jsx
+│   │   ├── ProfessorDashboard.jsx
+│   │   └── CourseAssignmentsPage.jsx
+│   │
+│   ├── services/
+│   │   ├── authService.js
+│   │   └── storageService.js
+│   │
 │   ├── App.jsx
-│   ├── App.css
-│   ├── index.css
 │   └── main.jsx
 │
 ├── index.html
 ├── package.json
+├── package-lock.json
 ├── vite.config.js
 └── README.md
 ```
@@ -122,13 +153,13 @@ Follow these steps to run the project locally.
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/RangannagariGuruBalaji/Assignment-Review-Dashboard.git
+git clone https://github.com/RangannagariGuruBalaji/Student-Assignment-Management-System.git
 ```
 
 ### 2. Navigate to the project folder
 
 ```bash
-cd Assignment-Review-Dashboard
+cd Student-Assignment-Management-System
 ```
 
 ### 3. Install dependencies
@@ -155,41 +186,38 @@ http://localhost:5173/
 
 ### Component-Based Architecture
 
-The application is divided into reusable React components to make the code organized, maintainable, and easier to extend.
+The application uses reusable React components to organize dashboards, assignment forms, group management and submission tracking.
+
+### Authentication and Role-Based Access
+
+The application supports student and professor roles. Protected routes ensure that users access the appropriate dashboard based on their role.
 
 ### State Management
 
-React `useState` manages login state, assignment data, submission statuses, search, filters, sorting, and theme preferences.
-
-React `useEffect` synchronizes assignment and theme data with browser localStorage.
-
-### Role-Based Access
-
-The logged-in user's role determines which dashboard, assignments, and navigation options are displayed.
+React `useState` and `useEffect` manage application state and synchronize relevant data with browser localStorage.
 
 ### Data Persistence
 
-Browser localStorage stores assignment information and theme preferences so that changes remain available after refreshing the browser.
+Browser localStorage stores user, session, course, assignment and group information so that application data can persist across browser refreshes.
 
 ### Responsive Design
 
-Tailwind CSS utility classes are used to create a responsive interface for desktop and mobile screens.
+Tailwind CSS utility classes provide a responsive interface for desktop and mobile devices.
 
 ## 💾 Data Storage
 
-This project uses browser localStorage instead of a backend database.
+The application uses browser localStorage for data persistence instead of a backend database.
 
-- Assignment data is stored in `joineazy_assignments`.
-- Theme preference is stored in `joineazy_theme`.
+Application data is maintained using dedicated storage keys for users, sessions, courses, assignments and groups.
 
-The application starts with sample data defined in `src/data/seedData.js`.
+The application also includes sample course, student and assignment data for demonstration purposes.
 
 ## 🔮 Future Improvements
 
 - Backend API integration.
 - Database integration.
-- Secure authentication and authorization.
-- Real assignment file uploads.
+- Secure server-side authentication.
+- Assignment file uploads.
 - Email and deadline notifications.
 - Advanced reporting and analytics.
 
@@ -199,11 +227,12 @@ The application starts with sample data defined in `src/data/seedData.js`.
 
 B.Tech – Computer Science and Engineering
 
-**GitHub:** https://github.com/RangannagariGuruBalaji
+GitHub: [RangannagariGuruBalaji](https://github.com/RangannagariGuruBalaji)
 
----
+## 🔗 Project Links
 
-## 📌 Project Links
+**GitHub Repository:**
 
-- **Live Demo:** https://assignment-review-dashboard-five.vercel.app/
-- **Source Code:** https://github.com/RangannagariGuruBalaji/Assignment-Review-Dashboard
+https://github.com/RangannagariGuruBalaji/Student-Assignment-Management-System
+
+**Live Demo:** Deployment pending.
